@@ -1,196 +1,289 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mã QR Theo Từng Người</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            padding: 50px 20px;
-        }
+      html {
+        scroll-behavior: smooth;
+      }
 
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-        }
+      body {
+        font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        min-height: 100vh;
+        padding: 50px 20px;
+        padding-top: 90px;
+      }
 
+      /* ===== NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(15, 20, 40, 0.75);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0 24px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.75);
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        padding: 6px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+        white-space: nowrap;
+      }
+
+      .nav-btn:hover {
+        background: rgba(167, 139, 250, 0.18);
+        border-color: rgba(167, 139, 250, 0.5);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .nav-btn.active {
+        background: linear-gradient(90deg, #a78bfa44, #60a5fa44);
+        border-color: rgba(167, 139, 250, 0.7);
+        color: #ffffff;
+      }
+
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 12px;
+        font-size: 2.8rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+        background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1rem;
+        margin-bottom: 50px;
+        letter-spacing: 0.05em;
+      }
+
+      .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        padding: 28px;
+        text-align: center;
+        transition:
+          transform 0.35s ease,
+          box-shadow 0.35s ease,
+          border-color 0.35s ease;
+        width: 100%;
+        max-width: 640px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .card:hover {
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        border-color: rgba(167, 139, 250, 0.5);
+      }
+
+      .qr-wrapper {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        image-rendering: crisp-edges;
+      }
+
+      .card-info {
+        text-align: center;
+        width: 100%;
+      }
+
+      .card h2 {
+        color: #ffffff;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        letter-spacing: -0.5px;
+      }
+
+      .badge {
+        display: inline-block;
+        background: linear-gradient(90deg, #a78bfa33, #60a5fa33);
+        border: 1px solid rgba(167, 139, 250, 0.4);
+        color: #a78bfa;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 4px 14px;
+        border-radius: 999px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 480px) {
         h1 {
-            text-align: center;
-            color: #ffffff;
-            margin-bottom: 12px;
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 1rem;
-            margin-bottom: 50px;
-            letter-spacing: 0.05em;
+          font-size: 2rem;
         }
 
         .grid {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-            align-items: center;
+          grid-template-columns: 1fr;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
-            padding: 28px;
-            text-align: center;
-            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-            width: 100%;
-            max-width: 640px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-            border-color: rgba(167, 139, 250, 0.5);
-        }
-
-        .qr-wrapper {
-            width: 100%;
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          padding: 20px;
+          max-width: 100%;
         }
 
         .card img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            image-rendering: crisp-edges;
+          max-width: 280px;
         }
-
-        .card-info {
-            text-align: center;
-            width: 100%;
-        }
-
-        .card h2 {
-            color: #ffffff;
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: linear-gradient(90deg, #a78bfa33, #60a5fa33);
-            border: 1px solid rgba(167, 139, 250, 0.4);
-            color: #a78bfa;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 999px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card {
-                padding: 20px;
-                max-width: 100%;
-            }
-
-            .card img {
-                max-width: 280px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-btn" href="#card-trang">Trang</a>
+      <a class="nav-btn" href="#card-quang">Quang</a>
+      <a class="nav-btn" href="#card-trung">Trung</a>
+      <a class="nav-btn" href="#card-dat">Đạt</a>
+      <a class="nav-btn" href="#card-hieu">Hiếu</a>
+    </nav>
     <div class="container">
-        <h1>Mã QR Cá Nhân</h1>
-        <p class="subtitle">Quét mã QR để thanh toán hoặc kết nối</p>
-        <div class="grid">
-            <div class="card">
-                <div class="qr-wrapper">
-                    <img src="images/dat.jpeg" alt="Mã QR của Đạt">
-                </div>
-                <div class="card-info">
-                    <h2>Đạt</h2>
-                    <span class="badge">Mã QR cá nhân</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="qr-wrapper">
-                    <img src="images/hieu.jpeg" alt="Mã QR của Hiếu">
-                </div>
-                <div class="card-info">
-                    <h2>Hiếu</h2>
-                    <span class="badge">Mã QR cá nhân</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="qr-wrapper">
-                    <img src="images/quang.jpg" alt="Mã QR của Quang">
-                </div>
-                <div class="card-info">
-                    <h2>Quang</h2>
-                    <span class="badge">Mã QR cá nhân</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="qr-wrapper">
-                    <img src="images/trang.jpg" alt="Mã QR của Trang">
-                </div>
-                <div class="card-info">
-                    <h2>Trang</h2>
-                    <span class="badge">Mã QR cá nhân</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="qr-wrapper">
-                    <img src="images/trung.jpeg" alt="Mã QR của Trung">
-                </div>
-                <div class="card-info">
-                    <h2>Trung</h2>
-                    <span class="badge">Mã QR cá nhân</span>
-                </div>
-            </div>
+      <h1>Mã QR Cá Nhân</h1>
+      <p class="subtitle">Quét mã QR để thanh toán hoặc kết nối</p>
+      <div class="grid">
+        <div class="card" id="card-trang">
+          <div class="qr-wrapper">
+            <img src="images/trang.jpg" alt="Mã QR của Trang" />
+          </div>
+          <div class="card-info">
+            <h2>Trang</h2>
+            <span class="badge">Mã QR cá nhân</span>
+          </div>
         </div>
+        <div class="card" id="card-quang">
+          <div class="qr-wrapper">
+            <img src="images/quang.jpg" alt="Mã QR của Quang" />
+          </div>
+          <div class="card-info">
+            <h2>Quang</h2>
+            <span class="badge">Mã QR cá nhân</span>
+          </div>
+        </div>
+
+        <div class="card" id="card-trung">
+          <div class="qr-wrapper">
+            <img src="images/trung.jpeg" alt="Mã QR của Trung" />
+          </div>
+          <div class="card-info">
+            <h2>Trung</h2>
+            <span class="badge">Mã QR cá nhân</span>
+          </div>
+        </div>
+        <div class="card" id="card-dat">
+          <div class="qr-wrapper">
+            <img src="images/dat.jpeg" alt="Mã QR của Đạt" />
+          </div>
+          <div class="card-info">
+            <h2>Đạt</h2>
+            <span class="badge">Mã QR cá nhân</span>
+          </div>
+        </div>
+        <div class="card" id="card-hieu">
+          <div class="qr-wrapper">
+            <img src="images/hieu.jpeg" alt="Mã QR của Hiếu" />
+          </div>
+          <div class="card-info">
+            <h2>Hiếu</h2>
+            <span class="badge">Mã QR cá nhân</span>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+
+    <script>
+      // Highlight nav button khi scroll đến section tương ứng
+      const cards = document.querySelectorAll('.card[id]');
+      const navBtns = document.querySelectorAll('.nav-btn');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            navBtns.forEach(btn => {
+              btn.classList.toggle('active', btn.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      cards.forEach(card => observer.observe(card));
+    </script>
+  </body>
 </html>
